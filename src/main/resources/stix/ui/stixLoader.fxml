@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="498.0" prefWidth="511.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stix.controllers.StixLoaderController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Settings" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="quitItem" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#aboutAction" text="About StixLoader" />
+                  <MenuItem mnemonicParsing="false" text="Guide" />
+                  <MenuItem mnemonicParsing="false" text="License" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+      <JFXTabPane fx:id="mainTabPane" style="-fx-background-color: #008975;" VBox.vgrow="ALWAYS">
+         <tabs>
+            <Tab text="Convert">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #F5F5F5;">
+                     <children>
+                        <GridPane layoutX="2.0" prefHeight="397.0" prefWidth="511.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="423.0" minHeight="10.0" prefHeight="286.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="77.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <VBox prefHeight="267.0" prefWidth="190.0" spacing="22.0">
+                                 <children>
+                                    <Label style="-fx-font-family: Times; -fx-font-size: 22;" text="From">
+                                       <VBox.margin>
+                                          <Insets left="12.0" top="12.0" />
+                                       </VBox.margin>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </Label>
+                                    <JFXButton fx:id="fromFileButton" buttonType="RAISED" onAction="#fromFileAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="File" />
+                                    <JFXButton fx:id="fromMongoButton" buttonType="RAISED" onAction="#fromMongoAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="MongoDB" />
+                                    <JFXButton fx:id="fromPostgresButton" buttonType="RAISED" onAction="#fromPostgresAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="PostgreSQL" />
+                                    <JFXButton fx:id="fromNeo4jButton" buttonType="RAISED" onAction="#fromNeo4jAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="Neo4j" />
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets left="33.0" top="22.0" />
+                                 </GridPane.margin>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="22.0" GridPane.columnIndex="1">
+                                 <children>
+                                    <Label style="-fx-font-family: Times; -fx-font-size: 22;" text="To">
+                                       <VBox.margin>
+                                          <Insets left="12.0" top="12.0" />
+                                       </VBox.margin>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </Label>
+                                    <JFXButton fx:id="toFileButton" buttonType="RAISED" onAction="#toFileAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="File" />
+                                    <JFXButton fx:id="toMongoButton" buttonType="RAISED" onAction="#toMongoAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="MongoDB" />
+                                    <JFXButton fx:id="toPostgresButton" buttonType="RAISED" onAction="#toPostgresAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="PostgreSQL" />
+                                    <JFXButton fx:id="toNeo4jButton" buttonType="RAISED" onAction="#toNeo4jAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="Neo4j" />
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets left="33.0" top="22.0" />
+                                 </GridPane.margin>
+                              </VBox>
+                              <JFXButton fx:id="convertButton" buttonType="RAISED" onAction="#convertAction" prefHeight="32.0" prefWidth="195.0" style="-fx-background-color: #607D8B; -fx-background-radius: 5em; -fx-text-fill: white;" text="Convert" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <JFXSpinner fx:id="theSpinner" disable="true" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Log info">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <JFXTextArea fx:id="infoArea" editable="false" labelFloat="true" layoutX="-1.0" prefHeight="414.0" prefWidth="511.0" promptText="log information" wrapText="true">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets></JFXTextArea>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+      <Pane prefHeight="35.0" prefWidth="700.0" style="-fx-background-color: #E0E0E0;">
+         <children>
+            <HBox prefHeight="35.0" prefWidth="700.0">
+               <children>
+                  <Label fx:id="infoLabel" prefHeight="35.0">
+                     <HBox.margin>
+                        <Insets left="8.0" top="4.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+  </children>
+</VBox>
