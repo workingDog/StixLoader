@@ -30,11 +30,12 @@ libraryDependencies ++= Seq(
 )
 
 assemblyMergeStrategy in assembly := {
-  case PathList(xs @_*) if xs.last.toLowerCase endsWith ".dsa" => MergeStrategy.discard
-  case PathList(xs @_*) if xs.last.toLowerCase endsWith ".sf" => MergeStrategy.discard
-  case PathList(xs @_*) if xs.last.toLowerCase endsWith ".des" => MergeStrategy.discard
-  case PathList(xs @_*) if xs.last endsWith "LICENSES.txt"=> MergeStrategy.discard
-  case PathList(xs @_*) if xs.last endsWith "LICENSE.txt"=> MergeStrategy.discard
+  case PathList(xs@_*) if xs.last.toLowerCase endsWith ".dsa" => MergeStrategy.discard
+  case PathList(xs@_*) if xs.last.toLowerCase endsWith ".sf" => MergeStrategy.discard
+  case PathList(xs@_*) if xs.last.toLowerCase endsWith ".des" => MergeStrategy.discard
+  case PathList(xs@_*) if xs.last endsWith "LICENSES.txt" => MergeStrategy.discard
+  case PathList(xs@_*) if xs.last endsWith "LICENSE.txt" => MergeStrategy.discard
+  case PathList("META-INF", xs@_*) => MergeStrategy.discard
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
@@ -50,10 +51,10 @@ mainClass in assembly := Some("stix.StixLoaderApp")
 
 assemblyJarName in assembly := "stixloader-" + version.value + ".jar"
 
-//enablePlugins(SbtProguard)
-//
-//javaOptions in (Proguard, proguard) := Seq("-Xmx12G")
-//
+enablePlugins(SbtProguard)
+
+javaOptions in(Proguard, proguard) := Seq("-Xmx12G")
+
 //proguardOptions in Proguard ++= Seq("-dontnote", "-dontwarn", "-ignorewarnings", "-dontobfuscate", "-dontusemixedcaseclassnames")
 //
 //proguardOptions in Proguard += ProguardOptions.keepMain("stix.StixLoaderApp")
@@ -83,3 +84,10 @@ assemblyJarName in assembly := "stixloader-" + version.value + ".jar"
 //proguardInputs in Proguard := (dependencyClasspath in Compile).value.files
 //
 //proguardFilteredInputs in Proguard ++= ProguardOptions.noFilter((packageBin in Compile).value)
+
+//-------------------------------------
+
+//proguardInputs in Proguard := Seq(baseDirectory.value / "target" / s"scala-${scalaVersion.value.dropRight(2)}" / s"${name.value}-${version.value}.jar")
+//proguardLibraries in Proguard := Seq()
+//proguardInputFilter in Proguard := { file => None }
+//proguardMerge in Proguard := false
