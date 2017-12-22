@@ -25,7 +25,7 @@ Using Java to launch **StixLoader**, type at a command prompt:
 
 This will display the main GUI of the application.
 
-![alt text](https://github.com/workingDog/StixLoader/stixloader.png)
+![alt text](https://github.com/workingDog/stixloader/stixloader.png)
 
 Select the data from the **From** list, then select a destination from the **To** list.
 **StixLoader** will convert and load the data as per the selections when the *Convert* button is clicked. 
