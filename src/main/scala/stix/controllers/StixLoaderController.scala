@@ -59,8 +59,6 @@ class StixLoaderController(aboutItem: MenuItem,
   private val fromGroup = new ButtonGroup(true)
   private val toGroup = new ButtonGroup(false)
 
-  private val textAreaStyle = "-fx-font-family: Times; " + "-fx-font-size: 14; "
-
   // todo does not work
   private val tabPaneStyle = ".jfx-tab-pane .tab-selected-line { -fx-background-color: red; }"
 
@@ -75,7 +73,6 @@ class StixLoaderController(aboutItem: MenuItem,
     toGroup.add(toNeo4jButton)
     toGroup.add(toPostgresButton)
     showSpinner(false)
-    infoArea.setStyle(textAreaStyle)
     infoArea.appendText("Session starting at: " + Timestamp.now().toString())
   }
 

@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.effect.DropShadow?>
@@ -19,10 +20,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox prefHeight="498.0" prefWidth="511.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stix.controllers.StixLoaderController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar VBox.vgrow="ALWAYS">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -41,9 +43,9 @@
         </Menu>
       </menus>
     </MenuBar>
-      <JFXTabPane fx:id="mainTabPane" style="-fx-background-color: #008975;" VBox.vgrow="ALWAYS">
+      <JFXTabPane fx:id="mainTabPane" VBox.vgrow="ALWAYS">
          <tabs>
-            <Tab text="Convert">
+            <Tab closable="false" text="Convert">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #F5F5F5;">
                      <children>
@@ -103,14 +105,29 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab text="Log info">
+            <Tab closable="false" text="Log info">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
-                        <JFXTextArea fx:id="infoArea" editable="false" labelFloat="true" layoutX="-1.0" prefHeight="414.0" prefWidth="511.0" promptText="log information" wrapText="true">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets></JFXTextArea>
+                        <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0">
+                                 <children>
+                                    <JFXTextArea fx:id="infoArea" editable="false" labelFloat="true" minHeight="400.0" minWidth="500.0" promptText="log information" wrapText="true">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <font>
+                                          <Font name="Monaco" size="14.0" />
+                                       </font>
+                                    </JFXTextArea>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                           <padding>
+                              <Insets left="8.0" right="8.0" top="22.0" />
+                           </padding>
+                        </ScrollPane>
                      </children></AnchorPane>
               </content>
             </Tab>
