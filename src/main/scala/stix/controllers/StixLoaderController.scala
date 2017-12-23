@@ -223,8 +223,8 @@ class StixLoaderController(aboutItem: MenuItem,
     toGroup.getSelected().map(toSelection => {
       fromGroup.getSelected().map(fromSelection => {
         fromSelection.getUserData match {
-          case fromFile: File => FileLoader(fromFile, toSelection.getUserData, self)
-          case fromMongo: MongoInfo => MongoLoader(fromMongo, toSelection.getUserData, self)
+          case fromFile: File => FileLoader.load(fromFile, toSelection.getUserData, self)
+          case fromMongo: MongoInfo => MongoLoader.load(fromMongo, toSelection.getUserData, self)
           case x => showThis("Conversion not yet implemented", Color.Red)
         }
       })
