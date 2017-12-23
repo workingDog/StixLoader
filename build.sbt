@@ -25,7 +25,6 @@ libraryDependencies ++= Seq(
   "com.jfoenix" % "jfoenix" % "1.9.1",
   "org.scalafx" %% "scalafx" % "8.0.144-R12",
   "org.scalafx" %% "scalafxml-core-sfx8" % "0.4",
-  "com.typesafe" % "config" % "1.3.2",
   "ch.qos.logback" % "logback-classic" % "1.2.3"
 )
 
