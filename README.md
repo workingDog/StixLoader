@@ -1,9 +1,9 @@
 ## An App to load STIX-2.0 objects
 
 **StixLoader** is a desktop application that loads [STIX-2.0](https://oasis-open.github.io/cti-documentation/) 
-objects from various input storage systems to other output systems. The aim of **StixLoader** is to convert STIX-2
+objects from various source storage systems to destination output systems. The aim of **StixLoader** is to convert STIX-2
 domain objects (SDO) and relationships (SRO) from and to; files, MongoDB, Neo4j and PostgreSQL. **StixLoader** provides a graphical user interface 
-for choosing the STIX-2 data input and output systems.
+for choosing the STIX-2 data source and destination systems.
     
 ### Installation and packaging
 
@@ -29,7 +29,30 @@ This will display the main GUI of the application.
 
 Select the data from the **From** list, then select a destination from the **To** list.
 **StixLoader** will convert and load the data as per the selections when the *Convert* button is clicked. 
-Some basic log information can be viewd in the *Log info* tab.
+Some basic chronological log information can be read in the *Log info* tab.
+
+Selecting *File* will popup a file dialog to choose the file to convert to or from. The file types can be 
+a text file containing a STIX-2 bundle in json format, or a zip file containing one or more bundle files. 
+
+Selecting *MongoDB* will try to connect to a *MongoDB* server. If no server is running a message 
+to that effect will be displayed at the bottom of the App. Ensure that the *MongoDB* server has 
+ finished connecting before clicking on the *Convert* button.
+
+Selecting *Neo4j* will pop-up a dialog to choose the Neo4j database directory to load the data to. 
+Currently *Neo4j* can only be selected as a destination.  
+
+Selecting *PostgreSQL* is not yet implemented. 
+
+The selection of one data source or destination disables the opposite system. For example; 
+if *MongoDB* is selected in the *From* section, the *MongoDB* is deselected in the *To* section.
+
+To deselect a currently selected item, simply click on it again. If the selection pops-up a dialog, 
+for example when choosing *File*, select *Cancel* and the selection will be removed.
+
+The *application.conf* file in the resource directory contains settings for the MongoDB server 
+and Neo4j default database directory. Adjust these entries to suit your system.
+
+Note: a full debugging log can be found in the *application.log* file in the *logs* directory.
 
 ### Dependencies and requirements
 

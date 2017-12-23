@@ -55,10 +55,10 @@ enablePlugins(SbtProguard)
 
 javaOptions in(Proguard, proguard) := Seq("-Xmx12G")
 
-//proguardOptions in Proguard ++= Seq("-dontnote", "-dontwarn", "-ignorewarnings", "-dontobfuscate", "-dontusemixedcaseclassnames")
-//
-//proguardOptions in Proguard += ProguardOptions.keepMain("stix.StixLoaderApp")
-//
+proguardOptions in Proguard ++= Seq("-dontnote", "-dontwarn", "-ignorewarnings", "-dontobfuscate", "-dontusemixedcaseclassnames")
+
+proguardOptions in Proguard += ProguardOptions.keepMain("stix.StixLoaderApp")
+
 //proguardMerge in Proguard := true
 //
 //proguardMergeStrategies in Proguard ++= Seq(
