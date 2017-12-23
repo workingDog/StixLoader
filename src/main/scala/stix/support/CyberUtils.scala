@@ -27,13 +27,8 @@ object CyberUtils {
     Option(fileChooser.showOpenDialog(new Stage()))
   }
 
-  def fileSaver(): Option[File] = {
-    val fileChooser = new FileChooser()
-    Option(fileChooser.showSaveDialog(new Stage()))
-  }
+  def fileSaver(): Option[File] = Option(new FileChooser().showSaveDialog(new Stage()))
 
-  def directorySelector(): Option[File] = {
-    Option(new DirectoryChooser().showDialog(new Stage()))
-  }
+  def directorySelector(): Option[File] = Option(new DirectoryChooser().showDialog(new Stage()))
 
 }
