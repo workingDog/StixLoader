@@ -113,7 +113,7 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0">
                                  <children>
-                                    <JFXTextArea fx:id="infoArea" editable="false" labelFloat="true" minHeight="400.0" minWidth="500.0" promptText="log information" wrapText="true">
+                                    <JFXTextArea fx:id="infoArea" editable="false" labelFloat="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="500.0" promptText="log information" wrapText="true">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>

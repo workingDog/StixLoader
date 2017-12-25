@@ -63,7 +63,7 @@ class StixLoaderController(aboutItem: MenuItem,
   private val tabPaneStyle = ".jfx-tab-pane .tab-selected-line { -fx-background-color: red; }"
 
   def init() {
-    mainTabPane.setStyle(tabPaneStyle)
+  //  mainTabPane.setStyle(tabPaneStyle)
     fromGroup.add(fromFileButton)
     fromGroup.add(fromMongoButton)
     fromGroup.add(fromNeo4jButton)

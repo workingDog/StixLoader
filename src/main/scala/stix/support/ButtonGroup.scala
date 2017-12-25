@@ -56,6 +56,6 @@ class ButtonGroup(fromGroup: Boolean) {
 
   def add(thisButton: JFXButton): Unit = entryList += new Entry(false, thisButton)
 
-  def add(selected: Boolean, thisButton: JFXButton): Unit = entryList += new Entry(selected, thisButton)
+  def add(thisButton: JFXButton, selected: Boolean): Unit = entryList += new Entry(selected, thisButton)
 
 }
