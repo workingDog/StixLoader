@@ -25,13 +25,13 @@ Using Java to launch **StixLoader**, type at a command prompt:
  
     java -jar stixloader-1.0.jar
 
-Or in most systems, double click on *stixloader-1.0.jar* file.
+Or in most systems, double click on the *stixloader-1.0.jar* file.
 
-This will display the main GUI of the application.
+This will display the main user interface of the application.
 
 ![Alt text](/stixloader.png?raw=true "StixLoader")
 
-Select the data from the **From** list, then select a destination from the **To** list.
+Select the data source from the **From** list, then select a destination from the **To** list.
 **StixLoader** will convert and load the data as per the selections when the *Convert* button is clicked. 
 Some basic chronological log information can be read in the *Log info* tab.
 
