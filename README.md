@@ -2,12 +2,14 @@
 
 **StixLoader** is a desktop application that loads [STIX-2.0](https://oasis-open.github.io/cti-documentation/) 
 objects from various source storage systems to destination output systems. The aim of **StixLoader** is to convert STIX-2
-domain objects (SDO) and relationships (SRO) from and to; files, MongoDB, Neo4j and PostgreSQL. **StixLoader** provides a graphical user interface 
+domain objects (SDO) and relationships (SRO) from and to; files, MongoDB, Neo4j and PostgreSQL. 
+**StixLoader** runs on the Java Virtual Machine and provides a graphical user interface 
 for choosing the STIX-2 data source and destination systems.
     
 ### Installation and packaging
+Download this repo, and install [SBT](http://www.scala-sbt.org/). 
 
-To compile from source and assemble the application and all its dependencies into a single fat jar file, use [SBT](http://www.scala-sbt.org/) and type:
+To compile the source code and assemble the application and all its dependencies into a single fat jar file, use [SBT](http://www.scala-sbt.org/) and type:
 
     sbt assembly
 
@@ -22,6 +24,8 @@ Using [SBT](http://www.scala-sbt.org/) directly (without having to generate a ja
 Using Java to launch **StixLoader**, type at a command prompt:
  
     java -jar stixloader-1.0.jar
+
+Or in most systems, double click on *stixloader-1.0.jar* file.
 
 This will display the main GUI of the application.
 
