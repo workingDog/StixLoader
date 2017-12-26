@@ -4,7 +4,8 @@ import java.io.File
 import javafx.fxml.FXML
 
 import com.jfoenix.controls._
-import com.kodekutters.stix.Timestamp
+import com.kodekutters.stix.{Bundle, Timestamp}
+import play.api.libs.json.Json
 import stix.StixLoaderApp
 import stix.db.mongo.MongoDbStix
 import stix.info.{FileInfo, MongoInfo, NeoInfo}
@@ -63,7 +64,7 @@ class StixLoaderController(aboutItem: MenuItem,
   private val tabPaneStyle = ".jfx-tab-pane .tab-selected-line { -fx-background-color: red; }"
 
   def init() {
-  //  mainTabPane.setStyle(tabPaneStyle)
+    //  mainTabPane.setStyle(tabPaneStyle)
     fromGroup.add(fromFileButton)
     fromGroup.add(fromMongoButton)
     fromGroup.add(fromNeo4jButton)
@@ -82,9 +83,13 @@ class StixLoaderController(aboutItem: MenuItem,
     infoArea.appendText("\n" + text)
   })
 
-  def clearMessage(): Unit = Platform.runLater(() => { messageBar().setText("") })
+  def clearMessage(): Unit = Platform.runLater(() => {
+    messageBar().setText("")
+  })
 
-  def showSpinner(onof: Boolean) = Platform.runLater(() => { theSpinner.setVisible(onof) })
+  def showSpinner(onof: Boolean) = Platform.runLater(() => {
+    theSpinner.setVisible(onof)
+  })
 
   // todo close properly before exiting
   def doClose(): Unit = {}
@@ -147,7 +152,7 @@ class StixLoaderController(aboutItem: MenuItem,
     clearMessage()
     setDisableToGroup(toPostgresButton)
     fromGroup.setSelected(fromPostgresButton, null)
-    if(fromGroup.isSelected(fromPostgresButton)) showThis("From PostgreSQL not yet implemented", Color.Red)
+    if (fromGroup.isSelected(fromPostgresButton)) showThis("From PostgreSQL not yet implemented", Color.Red)
     println("---> fromPostgresAction")
   }
 
@@ -155,7 +160,7 @@ class StixLoaderController(aboutItem: MenuItem,
     clearMessage()
     setDisableToGroup(toNeo4jButton)
     fromGroup.setSelected(fromNeo4jButton, null)
-    if(fromGroup.isSelected(fromNeo4jButton)) showThis("From Neo4j not yet implemented", Color.Red)
+    if (fromGroup.isSelected(fromNeo4jButton)) showThis("From Neo4j not yet implemented", Color.Red)
     println("---> fromNeo4jAction")
   }
 
@@ -176,7 +181,6 @@ class StixLoaderController(aboutItem: MenuItem,
     setDisableFromGroup(fromMongoButton)
     showSpinner(true)
     toGroup.clearAllSelection()
-    toGroup.setSelected(toMongoButton, null)
     // try to connect to the mongo db
     Future(try {
       showThis("Trying to connect to MongoDB: " + MongoDbStix.dbUri, Color.Black)
@@ -211,7 +215,7 @@ class StixLoaderController(aboutItem: MenuItem,
     clearMessage()
     setDisableFromGroup(fromPostgresButton)
     toGroup.setSelected(toPostgresButton, null)
-    if(toGroup.isSelected(toPostgresButton)) showThis("To PostgreSQL not yet implemented", Color.Red)
+    if (toGroup.isSelected(toPostgresButton)) showThis("To PostgreSQL not yet implemented", Color.Red)
     println("---> toPostgresAction")
   }
 
@@ -230,6 +234,29 @@ class StixLoaderController(aboutItem: MenuItem,
     toGroup.clearAllSelection()
     fromGroup.entryList.foreach(e => e.b.setDisable(false))
     toGroup.entryList.foreach(e => e.b.setDisable(false))
+  }
+
+  // todo load a bundle from a network feed
+  def loadNetBundle(thePath: String) {
+    showThis("Loading bundle from: " + thePath, Color.Black)
+    showSpinner(true)
+    // try to load the data
+    try {
+      // request the data
+      getDataFrom(thePath).map(jsData => {
+        // create a bundle object from it
+        Json.fromJson[Bundle](jsData).asOpt match {
+          case Some(bundle) =>
+            showThis("Bundle loaded from: " + thePath, Color.Black)
+
+          case None => showThis("Fail to load bundle from: " + thePath, Color.Red)
+        }
+      })
+    } catch {
+      case ex: Throwable => showThis("Fail to load bundle from: " + thePath, Color.Red)
+    } finally {
+      showSpinner(false)
+    }
   }
 
 }
