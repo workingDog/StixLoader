@@ -130,9 +130,6 @@ object MongoDbStix {
         Json.fromJson[Bundle](js).asOpt match {
           case None => println("\n-----> ERROR reading bundle in file: " + file.getName)
           case Some(bundle) => saveBundleAsStixs(bundle)
-      //      println("\n-----> bundle: " + bundle +"\n")
-      //      println("\n-----> bundle js: " + Json.prettyPrint(Json.toJson(bundle)) +"\n")
-
         }
         close()
     }

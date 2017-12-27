@@ -56,7 +56,8 @@ for example when choosing *File*, select *Cancel* and the selection will be remo
 The *application.conf* file in the resource directory contains settings for the MongoDB server 
 and Neo4j default database directory. Adjust these entries to suit your system.
 
-Note: a full debugging log can be found in the *application.log* file in the *logs* directory.
+Note: a full debugging log can be found in the *application.log* file in the *logs* directory. 
+To tune the loggin process, edit the *logback.xml* file.
 
 ### Dependencies and requirements
 
