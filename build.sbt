@@ -10,11 +10,11 @@ scalaVersion := "2.12.4"
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 
 libraryDependencies ++= Seq(
-  "org.neo4j" % "neo4j" % "3.2.1",
+  "org.neo4j" % "neo4j" % "3.3.2",
   "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.1.3",
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.3",
   "com.github.workingDog" %% "scalastix" % "0.7",
-  "com.github.workingDog" %% "stixtoneolib" % "0.2",
+  "com.github.workingDog" %% "stixtoneolib" % "0.3",
   "org.reactivemongo" %% "reactivemongo" % "0.12.7",
   "org.reactivemongo" %% "reactivemongo-play-json" % "0.12.7-play26",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
@@ -35,6 +35,7 @@ assemblyMergeStrategy in assembly := {
   case PathList(xs@_*) if xs.last.toLowerCase endsWith ".des" => MergeStrategy.discard
   case PathList(xs@_*) if xs.last endsWith "LICENSES.txt" => MergeStrategy.discard
   case PathList(xs@_*) if xs.last endsWith "LICENSE.txt" => MergeStrategy.discard
+  case PathList(xs@_*) if xs.last endsWith "logback.xml" => MergeStrategy.discard
   case PathList("META-INF", xs@_*) => MergeStrategy.discard
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
