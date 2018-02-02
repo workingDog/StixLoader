@@ -61,7 +61,7 @@ and Neo4j default database directory. Adjust these entries to suit your system.
 Note: a full debugging log can be found in the *application.log* file in the *logs* directory. 
 To tune the loggin process, edit the *logback.xml* file.
 
-An large STIX-2 dataset can be found from MITRE 
+A large STIX-2 dataset can be found from MITRE 
 [Cyber Threat Intelligence Repository expressed in STIX 2.0](https://github.com/mitre/cti).
 Download the whole github repository as a **.zip** file, then select this **cti-master.zip** 
 as the source **File** and **Neo4j** as the destination. Launch the **Neo4j app** and select the Neo4j directory as the database location and click start. 
