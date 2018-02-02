@@ -1,0 +1,41 @@
+---------------------------------------------
+// install mongoDB
+//see: https://docs.mongodb.com/manual/
+
+// make sure the mongo server is running before launching the app.
+In a terminal type the following and leave it running:
+mongod
+
+
+// then to check things out
+
+// in another terminal, the mongo shell:
+mongo
+
+// to show what databases exist
+show dbs
+
+// to select a database to use
+use stix
+
+// to show what is in the database
+show collections
+
+// to manually create a collection
+db.createCollection("indicator")
+db.createCollection("userLog")
+
+// to delete a collection
+db.indicator.drop()
+db.userLog.drop()
+
+// to list what is in a collection
+db.userLog.find().pretty()
+db.indicator.find().pretty()
+db.malware.find().pretty()
+db.relationship.find().pretty()
+
+--------------------------------------------
+
+
+
