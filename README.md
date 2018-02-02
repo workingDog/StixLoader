@@ -32,11 +32,13 @@ This will display the main user interface of the application.
 ![Alt text](/stixloader.png?raw=true "StixLoader")
 
 Select the data source from the **From** list, then select a destination from the **To** list.
-**StixLoader** will convert and load the data as per the selections when the *Convert* button is clicked. 
+**StixLoader** will convert and load the data as per the selections when the **Convert** button is clicked. 
 Some basic chronological log information can be read in the *Log info* tab.
 
 Selecting *File* will popup a file dialog to choose the file to convert to or from. The file types can be 
-a text file containing a STIX-2 bundle in json format, or a zip file containing one or more bundle files. 
+a file (.json or .stix) containing a STIX-2 bundle in json format, 
+or a zip file containing one or more bundle files, i.e. with extension .json or .stix, all other files types 
+are ignored. 
 
 Selecting *MongoDB* will try to connect to a *MongoDB* server. If no server is running a message 
 to that effect will be displayed at the bottom of the App. Ensure that the *MongoDB* server has 
