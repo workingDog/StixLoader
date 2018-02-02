@@ -33,6 +33,8 @@ object Neo4jService {
       if (file.getName.toLowerCase.endsWith(".zip")) loadBundleZipFile(neoLoader, file)
       else neoLoader.loadBundleFile(file)
       controller.showThis("Done saving: " + file.getName + " to Neo4jDB: " + dbDirectory.getName, Color.Black)
+      controller.showThis("   SDO: " + neoLoader.loader.counter.count("SDO") + " SRO: " + neoLoader.loader.counter.count("SRO") + " StixObj: " + neoLoader.loader.counter.count("StixObj"), Color.Black)
+      neoLoader.loader.counter.reset()
       controller.showSpinner(false)
     })
   }
