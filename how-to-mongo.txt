@@ -35,6 +35,9 @@ db.indicator.find().pretty()
 db.malware.find().pretty()
 db.relationship.find().pretty()
 
+// to delete a whole database
+db.dropDatabase()
+
 --------------------------------------------
 
 
