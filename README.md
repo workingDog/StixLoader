@@ -59,6 +59,12 @@ and Neo4j default database directory. Adjust these entries to suit your system.
 Note: a full debugging log can be found in the *application.log* file in the *logs* directory. 
 To tune the loggin process, edit the *logback.xml* file.
 
+An large STIX-2 dataset can be found from MITRE 
+[Cyber Threat Intelligence Repository expressed in STIX 2.0](https://github.com/mitre/cti).
+Download the whole github repository as a **.zip** file, then select this **cti-master.zip** 
+as the source **File** and **Neo4j** as the destination. Launch the **Neo4j app** and select the Neo4j directory as the database location and click start. 
+Once the status is "started", open a browser on "http://localhost:7474". The data can then displayed as a graph.
+
 ### Dependencies and requirements
 
 Depends specifically on the [ScalaStix](https://github.com/workingDog/scalastix) and 
@@ -86,7 +92,7 @@ Java 8 is required.
 
 ### Status
 
-Very early stage of work in progress.
+work in progress.
 
 Currently, only converts and loads STIX-2 from: file and MongoDB to: file, MongoDB and Neo4j.
 
