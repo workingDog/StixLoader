@@ -24,6 +24,6 @@
         <appender-ref ref="FILE" />
     </root>
 
-    <logger name="stix.db.mongo.MongoDbStix" level="DEBUG"/>
+    <logger name="stix.db.mongo.MongoDbStix" level="INFO"/>
 
 </configuration>
