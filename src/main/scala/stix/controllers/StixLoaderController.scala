@@ -7,8 +7,10 @@ import com.jfoenix.controls._
 import com.kodekutters.stix.{Bundle, Timestamp}
 import play.api.libs.json.Json
 import stix.StixLoaderApp
+import stix.db.elastic.ElasticStix
+import stix.db.elastic.ElasticStix.client
 import stix.db.mongo.MongoDbStix
-import stix.info.{FileInfo, MongoInfo, NeoInfo}
+import stix.info.InfoMessages._
 import stix.loaders.{FileLoader, MongoLoader}
 import stix.support.ButtonGroup
 import stix.support.CyberUtils._
@@ -45,10 +47,12 @@ class StixLoaderController(aboutItem: MenuItem,
                            @FXML fromMongoButton: JFXButton,
                            @FXML fromPostgresButton: JFXButton,
                            @FXML fromNeo4jButton: JFXButton,
+                           @FXML fromESButton: JFXButton,
                            @FXML toFileButton: JFXButton,
                            @FXML toMongoButton: JFXButton,
                            @FXML toNeo4jButton: JFXButton,
                            @FXML toPostgresButton: JFXButton,
+                           @FXML toESButton: JFXButton,
                            @FXML convertButton: JFXButton,
                            @FXML infoArea: JFXTextArea,
                            @FXML settingsArea: JFXTextArea) extends StixLoaderControllerInterface {
@@ -69,10 +73,12 @@ class StixLoaderController(aboutItem: MenuItem,
     fromGroup.add(fromMongoButton)
     fromGroup.add(fromNeo4jButton)
     fromGroup.add(fromPostgresButton)
+    fromGroup.add(fromESButton)
     toGroup.add(toFileButton)
     toGroup.add(toMongoButton)
     toGroup.add(toNeo4jButton)
     toGroup.add(toPostgresButton)
+    toGroup.add(toESButton)
     showSpinner(false)
     infoArea.appendText("Session starting at: " + Timestamp.now().toString())
   }
@@ -135,8 +141,8 @@ class StixLoaderController(aboutItem: MenuItem,
       showThis("Trying to connect to MongoDB: " + MongoDbStix.dbUri, Color.Black)
       // start a mongoDB connection, if not already connected
       // will wait here for the connection to complete or throw an exception
-      if (!MongoDbStix.isConnected()) MongoDbStix.init()
-      fromGroup.setSelected(fromMongoButton, MongoInfo(null))
+      if (!MongoDbStix.isConnected) MongoDbStix.init()
+      fromGroup.setSelected(fromMongoButton, MongoInfo())
       showThis("Ok connected to MongoDB: " + MongoDbStix.dbUri, Color.Black)
     } catch {
       case ex: Throwable =>
@@ -186,9 +192,21 @@ class StixLoaderController(aboutItem: MenuItem,
       showThis("Trying to connect to MongoDB: " + MongoDbStix.dbUri, Color.Black)
       // start a mongoDB connection, if not already connected
       // will wait here for the connection to complete or throw an exception
-      if (!MongoDbStix.isConnected()) MongoDbStix.init()
-      toGroup.setSelected(toMongoButton, MongoInfo(null))
-      showThis("Ok connected to MongoDB: " + MongoDbStix.dbUri, Color.Black)
+      if (!MongoDbStix.isConnected) {
+        // try to connect
+        MongoDbStix.init()
+        // if could connect
+        if (MongoDbStix.isConnected) {
+          toGroup.setSelected(toMongoButton, MongoInfo())
+          showThis("Ok connected to MongoDB: " + MongoDbStix.dbUri, Color.Black)
+        } else {
+          showThis("Fail to connect to MongoDB: " + MongoDbStix.dbUri, Color.Red)
+        }
+      } else {
+        // already connected
+        toGroup.setSelected(toMongoButton, MongoInfo())
+        showThis("Ok connected to MongoDB: " + MongoDbStix.dbUri, Color.Black)
+      }
     } catch {
       case ex: Throwable =>
         toGroup.clearAllSelection()
@@ -258,5 +276,48 @@ class StixLoaderController(aboutItem: MenuItem,
       showSpinner(false)
     }
   }
+
+  def fromESAction(): Unit = {
+    clearMessage()
+    setDisableFromGroup(toESButton)
+    fromGroup.setSelected(fromESButton, null)
+    if (fromGroup.isSelected(fromESButton)) showThis("From Elasticsearch not yet implemented", Color.Red)
+    println("---> fromESAction")
+  }
+
+  def toESAction(): Unit = {
+    clearMessage()
+    setDisableFromGroup(fromESButton)
+    showSpinner(true)
+    toGroup.clearAllSelection()
+    // try to connect to elasticsearch
+    Future(try {
+      // start a elasticsearch connection, if not already connected
+      if (!ElasticStix.isConnected) {
+        showThis("Trying to connect to Elasticsearch: " + ElasticStix.esName, Color.Black)
+        // try to connect
+        ElasticStix.init()
+        // if could connect
+        if (ElasticStix.isConnected) {
+          toGroup.setSelected(toESButton, ESInfo())
+          showThis("Ok connected to Elasticsearch: " + ElasticStix.esName, Color.Black)
+        } else {
+          showThis("Fail to connect to Elasticsearch: " + ElasticStix.esName, Color.Red)
+        }
+      } else {
+        // already connected
+        toGroup.setSelected(toESButton, ESInfo())
+        showThis("Ok connected to Elasticsearch: " + ElasticStix.esName, Color.Black)
+      }
+    } catch {
+      case ex: Throwable =>
+        toGroup.clearAllSelection()
+        setDisableFromGroup(fromESButton)
+        showThis("Fail to connect to Elasticsearch: " + ElasticStix.esName, Color.Red)
+    } finally {
+      showSpinner(false)
+    })
+  }
+
 
 }

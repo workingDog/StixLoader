@@ -50,7 +50,7 @@ object MongoDbStix {
 
   var isReady = false
 
-  def isConnected() = isReady
+  def isConnected: Boolean = isReady
 
   var dbUri = ""
   private var timeout = 30 // seconds
@@ -109,7 +109,7 @@ object MongoDbStix {
   }
 
   def saveFileToDB(file: File, controller: StixLoaderControllerInterface): Unit = {
-    if (isConnected()) {
+    if (isConnected) {
       controller.showSpinner(true)
       Future(try {
         controller.showThis("Saving: " + file.getName + " to MongoDB: " + dbUri, Color.Black)

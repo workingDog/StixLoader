@@ -32,7 +32,7 @@ This will display the main user interface of the application.
 ![Alt text](/stixloader.png?raw=true "StixLoader")
 
 Select the data source from the **From** list, then select a destination from the **To** list.
-**StixLoader** will convert and load the data as per the selections when the **Convert** button is clicked. 
+**StixLoader** will convert and load the data as per the selections when the **Load** button is clicked. 
 Some basic chronological log information can be read in the *Log info* tab.
 
 Selecting *File* will popup a file dialog to choose the file to convert to or from. The file types can be 
@@ -42,7 +42,7 @@ are ignored.
 
 Selecting *MongoDB* will try to connect to a *MongoDB* server. If no server is running a message 
 to that effect will be displayed at the bottom of the App. Ensure that the *MongoDB* server has 
- finished connecting before clicking on the *Convert* button.
+ finished connecting before clicking on the **Load** button.
 
 Selecting *Neo4j* will pop-up a dialog to choose the Neo4j database directory to load the data to. 
 Currently *Neo4j* can only be selected as a destination.  
@@ -55,8 +55,8 @@ if *MongoDB* is selected in the *From* section, the *MongoDB* is deselected in t
 To deselect a currently selected item, simply click on it again. If the selection pops-up a dialog, 
 for example when choosing *File*, select *Cancel* and the selection will be removed.
 
-The *application.conf* file in the resource directory contains settings for the MongoDB server 
-and Neo4j default database directory. Adjust these entries to suit your system.
+The *application.conf* file in the resource directory contains settings for the MongoDB server, 
+Neo4j default database directory and Elasticsearch server. Adjust these entries to suit your system.
 
 Note: a full debugging log can be found in the *application.log* file in the *logs* directory. 
 To tune the loggin process, edit the *logback.xml* file.
@@ -92,10 +92,17 @@ Java 8 is required.
 
 7) [PostgreSQL](https://www.postgresql.org/)
 
+8) [Elasticsearch](https://www.elastic.co/)
+
+9) [Elastic4s](https://github.com/sksamuel/elastic4s)
+
 ### Status
 
 work in progress.
 
-Currently, only converts and loads STIX-2 from: file and MongoDB to: file, MongoDB and Neo4j.
+Currently, only converts and loads STIX-2 
 
+from: file to: MongoDB, Neo4j and Elasticsearch, and
+
+from: MongoDB to: file and Neo4j
 

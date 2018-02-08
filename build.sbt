@@ -26,7 +26,10 @@ libraryDependencies ++= Seq(
   "com.jfoenix" % "jfoenix" % "1.9.1",
   "org.scalafx" %% "scalafx" % "8.0.144-R12",
   "org.scalafx" %% "scalafxml-core-sfx8" % "0.4",
-  "ch.qos.logback" % "logback-classic" % "1.2.3"
+  "ch.qos.logback" % "logback-classic" % "1.2.3",
+  "com.sksamuel.elastic4s" %% "elastic4s-http" % "6.1.4",
+  "com.sksamuel.elastic4s" %% "elastic4s-play-json" % "6.1.4",
+  "com.sksamuel.elastic4s" %% "elastic4s-http-streams" % "6.1.4"
 )
 
 assemblyMergeStrategy in assembly := {
@@ -52,19 +55,27 @@ mainClass in assembly := Some("stix.StixLoaderApp")
 
 assemblyJarName in assembly := "stixloader-" + version.value + ".jar"
 
-enablePlugins(SbtProguard)
 
-javaOptions in(Proguard, proguard) := Seq("-Xmx12G")
 
-proguardOptions in Proguard ++= Seq("-dontnote", "-dontwarn", "-ignorewarnings", "-dontobfuscate", "-dontusemixedcaseclassnames")
 
-proguardOptions in Proguard += ProguardOptions.keepMain("stix.StixLoaderApp")
-
-//proguardMerge in Proguard := true
+//enablePlugins(SbtProguard)
 //
+//javaOptions in(Proguard, proguard) := Seq("-Xmx12G")
+//
+//proguardOptions in Proguard ++= Seq("-dontnote", "-dontwarn", "-ignorewarnings", "-dontobfuscate", "-dontusemixedcaseclassnames")
+//
+//proguardOptions in Proguard += ProguardOptions.keepMain("stix.StixLoaderApp")
+
+// proguardMerge in Proguard := true
+
+//proguardInputFilter in Proguard := { file =>
+//  file.name match {
+//    case "scala-library.jar" => Some("!META-INF/**")
+//    case _                   => None
+//  }
+//}
+
 //proguardMergeStrategies in Proguard ++= Seq(
-//  ProguardMerge.last("lib/lucene-core-4.10.4.jar"),
-//  ProguardMerge.last("lib/lucene-core-5.5.0.jar"),
 //  ProguardMerge.discard("META-INF/.*".r),
 //  ProguardMerge.discard("\\.dsa$".r),
 //  ProguardMerge.discard("\\.sf$".r),
@@ -72,19 +83,30 @@ proguardOptions in Proguard += ProguardOptions.keepMain("stix.StixLoaderApp")
 //  ProguardMerge.discard("\\.LICENSES.txt$".r),
 //  ProguardMerge.discard("\\.NOTICE.txt$".r),
 //  ProguardMerge.discard("\\.LICENSE.txt$".r),
+//  ProguardMerge.discard("\\.logback.xml$".r),
+//  ProguardMerge.discard("logback.xml".r),
 //
-//  ProguardMerge.first("META-INF/LICENSE.txt"),
-//  ProguardMerge.first("META-INF/NOTICE.txt"),
-//  ProguardMerge.first("META-INF/services/org.apache.lucene.codecs.Codec"),
-//  ProguardMerge.first("META-INF/services/org.apache.lucene.codecs.DocValuesFormat"),
-//  ProguardMerge.first("META-INF/services/org.apache.lucene.codecs.PostingsFormat"),
+//  ProguardMerge.discard("META-INF/LICENSE.txt".r),
+//  ProguardMerge.discard("META-INF/LICENSES.txt".r),
+//  ProguardMerge.discard("META-INF/NOTICE.txt".r),
+//
+//  ProguardMerge.discard("META-INF/LICENSE".r),
+//  ProguardMerge.discard("META-INF/LICENSES".r),
+//  ProguardMerge.discard("META-INF/NOTICE".r),
+//
+//  ProguardMerge.last("lib/lucene-core-4.10.4.jar"),
+//  ProguardMerge.last("lib/lucene-core-5.5.0.jar"),
+//
+//  ProguardMerge.discard("META-INF/services/org.apache.lucene.codecs.Codec"),
+//  ProguardMerge.discard("META-INF/services/org.apache.lucene.codecs.DocValuesFormat"),
+//  ProguardMerge.discard("META-INF/services/org.apache.lucene.codecs.PostingsFormat"),
 //
 //  ProguardMerge.append("reference.conf")
 //)
-//
-//proguardInputs in Proguard := (dependencyClasspath in Compile).value.files
-//
-//proguardFilteredInputs in Proguard ++= ProguardOptions.noFilter((packageBin in Compile).value)
+
+// proguardInputs in Proguard := (dependencyClasspath in Compile).value.files
+
+// proguardFilteredInputs in Proguard ++= ProguardOptions.noFilter((packageBin in Compile).value)
 
 //-------------------------------------
 
