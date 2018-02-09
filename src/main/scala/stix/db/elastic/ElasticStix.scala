@@ -60,7 +60,7 @@ object ElasticStix {
   var esName = ""
   var clusterName = "elasticsearch"
   var user = "elastic"
-  var psw = "xs4XO9dMp46tsfmiUNyc"
+  var psw = "guest"
 
   try {
     host = config.getString("elasticsearch.host")
@@ -72,11 +72,6 @@ object ElasticStix {
   } catch {
     case e: Throwable => println("---> config error: " + e)
   }
-
-  // todo ---> does not work
-  //  val theUri = "http://" + user + ":" + psw + "@" + host + ":" + port.toString +"/"
-  //  val theUri = clusterName + "://" + user + ":" + psw + "@" + host + ":" + port.toString + "?ssl=true"
-  //  val client = HttpClient(ElasticsearchClientUri(theUri))
 
   lazy val provider = {
     val provider = new BasicCredentialsProvider

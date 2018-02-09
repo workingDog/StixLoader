@@ -2,7 +2,7 @@
 
 **StixLoader** is a desktop application that loads [STIX-2.0](https://oasis-open.github.io/cti-documentation/) 
 objects from various source storage systems to destination output systems. The aim of **StixLoader** is to convert STIX-2
-domain objects (SDO) and relationships (SRO) from and to; files, MongoDB, Neo4j and PostgreSQL. 
+domain objects (SDO) and relationships (SRO) from and to; files, MongoDB, Neo4j, PostgreSQL and ElasticSearch. 
 **StixLoader** runs on the Java Virtual Machine and provides a graphical user interface 
 for choosing the STIX-2 data source and destination systems.
     
@@ -49,14 +49,17 @@ Currently *Neo4j* can only be selected as a destination.
 
 Selecting *PostgreSQL* is not yet implemented. 
 
+The experimental *ElasticSearch* is only implemented as a destination, see also *application.conf* file 
+for *ElasticSearch* required settings.
+
 The selection of one data source or destination disables the opposite system. For example; 
 if *MongoDB* is selected in the *From* section, the *MongoDB* is deselected in the *To* section.
 
 To deselect a currently selected item, simply click on it again. If the selection pops-up a dialog, 
 for example when choosing *File*, select *Cancel* and the selection will be removed.
 
-The *application.conf* file in the resource directory contains settings for the MongoDB server, 
-Neo4j default database directory and Elasticsearch server. Adjust these entries to suit your system.
+The *application.conf* file in the resource directory contains settings for the *MongoDB* server, 
+*Neo4j* default database directory and *Elasticsearch* server. Adjust these entries to suit your system.
 
 Note: a full debugging log can be found in the *application.log* file in the *logs* directory. 
 To tune the loggin process, edit the *logback.xml* file.

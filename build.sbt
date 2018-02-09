@@ -107,10 +107,3 @@ assemblyJarName in assembly := "stixloader-" + version.value + ".jar"
 // proguardInputs in Proguard := (dependencyClasspath in Compile).value.files
 
 // proguardFilteredInputs in Proguard ++= ProguardOptions.noFilter((packageBin in Compile).value)
-
-//-------------------------------------
-
-//proguardInputs in Proguard := Seq(baseDirectory.value / "target" / s"scala-${scalaVersion.value.dropRight(2)}" / s"${name.value}-${version.value}.jar")
-//proguardLibraries in Proguard := Seq()
-//proguardInputFilter in Proguard := { file => None }
-//proguardMerge in Proguard := false
