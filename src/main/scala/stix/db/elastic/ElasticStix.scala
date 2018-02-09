@@ -10,6 +10,7 @@ import com.sksamuel.elastic4s.{ElasticsearchClientUri, RefreshPolicy}
 import com.sksamuel.elastic4s.http.HttpClient
 import play.api.libs.json._
 import stix.controllers.StixLoaderControllerInterface
+
 import scala.io.Source
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -18,6 +19,11 @@ import scala.language.{implicitConversions, postfixOps}
 import scalafx.scene.paint.Color
 import com.sksamuel.elastic4s.http.ElasticDsl._
 import com.sksamuel.elastic4s.playjson._
+import org.apache.http.auth.{AuthScope, UsernamePasswordCredentials}
+import org.apache.http.client.config.RequestConfig.Builder
+import org.apache.http.impl.client.BasicCredentialsProvider
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder
+import org.elasticsearch.client.RestClientBuilder.{HttpClientConfigCallback, RequestConfigCallback}
 
 
 /**
@@ -52,16 +58,42 @@ object ElasticStix {
   var host = "localhost"
   var port = 9200
   var esName = ""
+  var clusterName = "elasticsearch"
+  var user = "elastic"
+  var psw = "xs4XO9dMp46tsfmiUNyc"
 
   try {
     host = config.getString("elasticsearch.host")
     port = config.getInt("elasticsearch.port")
     esName = config.getString("elasticsearch.name")
+    clusterName = config.getString("elasticsearch.cluster_name")
+    user = config.getString("elasticsearch.user")
+    psw = config.getString("elasticsearch.password")
   } catch {
     case e: Throwable => println("---> config error: " + e)
   }
 
-  val client = HttpClient(ElasticsearchClientUri(host, port))
+  // todo ---> does not work
+  //  val theUri = "http://" + user + ":" + psw + "@" + host + ":" + port.toString +"/"
+  //  val theUri = clusterName + "://" + user + ":" + psw + "@" + host + ":" + port.toString + "?ssl=true"
+  //  val client = HttpClient(ElasticsearchClientUri(theUri))
+
+  lazy val provider = {
+    val provider = new BasicCredentialsProvider
+    val credentials = new UsernamePasswordCredentials(user, psw)
+    provider.setCredentials(AuthScope.ANY, credentials)
+    provider
+  }
+
+  val client = HttpClient(ElasticsearchClientUri(host, port), new RequestConfigCallback {
+    override def customizeRequestConfig(requestConfigBuilder: Builder) = {
+      requestConfigBuilder
+    }
+  }, new HttpClientConfigCallback {
+    override def customizeHttpClient(httpClientBuilder: HttpAsyncClientBuilder) = {
+      httpClientBuilder.setDefaultCredentialsProvider(provider)
+    }
+  })
 
   /**
     * initialise this singleton
