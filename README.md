@@ -49,7 +49,7 @@ Currently *Neo4j* can only be selected as a destination.
 
 Selecting *PostgreSQL* is not yet implemented. 
 
-The experimental *ElasticSearch* is only implemented as a destination, see also *application.conf* file 
+The experimental *ElasticSearch* is only implemented as a destination from a *File* source, see also *application.conf* file 
 for *ElasticSearch* required settings.
 
 The selection of one data source or destination disables the opposite system. For example; 
