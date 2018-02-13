@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.2",
   "com.google.inject" % "guice" % "4.1.0",
-  "com.jfoenix" % "jfoenix" % "1.9.1",
+  "com.jfoenix" % "jfoenix" % "8.0.2",
   "org.scalafx" %% "scalafx" % "8.0.144-R12",
   "org.scalafx" %% "scalafxml-core-sfx8" % "0.4",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
