@@ -36,6 +36,7 @@ object StixLoaderApp extends JFXApp {
   stage = new PrimaryStage() {
     title = "StixLoader-" + version
     scene = new Scene(root)
+    onCloseRequest = (e) => stopApp()
   }
   // initialise the main controller
   controller.init()
@@ -43,7 +44,6 @@ object StixLoaderApp extends JFXApp {
   // close properly before exiting
   override def stopApp(): Unit = {
     super.stopApp
-    controller.doClose()
     Platform.exit
     System.exit(0)
   }

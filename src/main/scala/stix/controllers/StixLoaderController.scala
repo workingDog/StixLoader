@@ -27,8 +27,6 @@ trait StixLoaderControllerInterface {
 
   def init(): Unit
 
-  def doClose(): Unit
-
   def messageBar(): Label
 
   def showThis(text: String, color: Color): Unit
@@ -91,9 +89,6 @@ class StixLoaderController(aboutItem: MenuItem,
   def showSpinner(onof: Boolean) = Platform.runLater(() => {
     theSpinner.setVisible(onof)
   })
-
-  // todo close properly before exiting
-  def doClose(): Unit = {}
 
   def quitAction() = StixLoaderApp.stopApp()
 
