@@ -28,11 +28,11 @@ object Neo4jService {
   def saveFileToDB(file: File, dbDirectory: File, controller: StixLoaderControllerInterface): Unit = {
     controller.showSpinner(true)
     Future({
-      controller.showThis("Saving: " + file.getName + " to Neo4jDB: " + dbDirectory.getName, Color.Black)
+      controller.showThis("Loading: " + file.getName + " to Neo4jDB: " + dbDirectory.getName, Color.Black)
       val neoLoader = new Neo4jFileLoader(dbDirectory.getCanonicalPath)
       if (file.getName.toLowerCase.endsWith(".zip")) loadBundleZipFile(neoLoader, file)
       else neoLoader.loadBundleFile(file)
-      controller.showThis("Done saving: " + file.getName + " to Neo4jDB: " + dbDirectory.getName, Color.Black)
+      controller.showThis("Done loading: " + file.getName + " to Neo4jDB: " + dbDirectory.getName, Color.Black)
       controller.showThis("   SDO: " + neoLoader.loader.counter.count("SDO") + " SRO: " + neoLoader.loader.counter.count("SRO") + " StixObj: " + neoLoader.loader.counter.count("StixObj"), Color.Black)
       neoLoader.loader.counter.reset()
       controller.showSpinner(false)
@@ -42,11 +42,11 @@ object Neo4jService {
   def saveStixToNeo4j(stixList: List[StixObj], neoDir: File, controller: StixLoaderControllerInterface): Unit = {
     controller.showSpinner(true)
     Future({
-      controller.showThis("Saving STIX-2 to Neo4jDB: " + neoDir.getName, Color.Black)
+      controller.showThis("Loading STIX-2 to Neo4jDB: " + neoDir.getName, Color.Black)
       val neoLoader = new Neo4jLoader(neoDir.getCanonicalPath)
       stixList.foreach(stix => neoLoader.loadIntoNeo4j(stix))
       neoLoader.close()
-      controller.showThis("Done saving STIX-2 to Neo4jDB: " + neoDir.getName, Color.Black)
+      controller.showThis("Done loading STIX-2 to Neo4jDB: " + neoDir.getName, Color.Black)
       controller.showSpinner(false)
     })
   }

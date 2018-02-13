@@ -1,4 +1,3 @@
-//
 //pomExtra := {
 //  <scm>
 //    <url>https://github.com/workingDog/stixloader</url>
@@ -15,25 +14,17 @@
 //
 //pomIncludeRepository := { _ => false }
 //
-//// Release settings
+//publishMavenStyle := true
+//
+//publishArtifact in Test := false
+//
+//publishTo := Some(
+//  if (isSnapshot.value)
+//    Opts.resolver.sonatypeSnapshots
+//  else
+//    Opts.resolver.sonatypeStaging
+//)
+//
 //sonatypeProfileName := "com.github.workingDog"
 //releasePublishArtifactsAction := PgpKeys.publishSigned.value
-//releaseCrossBuild := true
 //releaseTagName := (version in ThisBuild).value
-//
-//import ReleaseTransformations._
-//
-//releaseProcess := Seq[ReleaseStep](
-//  checkSnapshotDependencies,
-//  inquireVersions,
-//  setReleaseVersion,
-//  commitReleaseVersion,
-//  tagRelease,
-//  publishArtifacts,
-//  ReleaseStep(action = Command.process("publishSigned", _)),
-//  releaseStepCommand("sonatypeRelease"),
-//  setNextVersion,
-//  commitNextVersion,
-//  pushChanges
-//)
-

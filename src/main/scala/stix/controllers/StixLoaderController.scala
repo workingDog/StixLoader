@@ -8,9 +8,8 @@ import com.kodekutters.stix.{Bundle, Timestamp}
 import play.api.libs.json.Json
 import stix.StixLoaderApp
 import stix.db.elastic.ElasticStix
-import stix.db.elastic.ElasticStix.client
 import stix.db.mongo.MongoDbStix
-import stix.info.InfoMessages._
+import stix.info._
 import stix.loaders.{FileLoader, MongoLoader}
 import stix.support.ButtonGroup
 import stix.support.CyberUtils._
@@ -64,11 +63,8 @@ class StixLoaderController(aboutItem: MenuItem,
   private val fromGroup = new ButtonGroup(true)
   private val toGroup = new ButtonGroup(false)
 
-  // todo does not work
-  private val tabPaneStyle = ".jfx-tab-pane .tab-selected-line { -fx-background-color: red; }"
-
   def init() {
-    //  mainTabPane.setStyle(tabPaneStyle)
+    showSpinner(false)
     fromGroup.add(fromFileButton)
     fromGroup.add(fromMongoButton)
     fromGroup.add(fromNeo4jButton)
@@ -79,7 +75,6 @@ class StixLoaderController(aboutItem: MenuItem,
     toGroup.add(toNeo4jButton)
     toGroup.add(toPostgresButton)
     toGroup.add(toESButton)
-    showSpinner(false)
     infoArea.appendText("Session starting at: " + Timestamp.now().toString())
   }
 
@@ -111,29 +106,29 @@ class StixLoaderController(aboutItem: MenuItem,
     }.showAndWait()
   }
 
-  def setDisableToGroup(thisButton: JFXButton): Unit = {
+  def disableInToGroup(thisButton: JFXButton): Unit = {
     toGroup.entryList.foreach(e => if (e.b == thisButton && !thisButton.isDisable) e.b.setDisable(true) else e.b.setDisable(false))
   }
 
-  def setDisableFromGroup(thisButton: JFXButton): Unit = {
+  def disableInFromGroup(thisButton: JFXButton): Unit = {
     fromGroup.entryList.foreach(e => if (e.b == thisButton && !thisButton.isDisable) e.b.setDisable(true) else e.b.setDisable(false))
   }
 
   def fromFileAction(): Unit = {
     clearMessage()
-    setDisableToGroup(toFileButton)
+    disableInToGroup(toFileButton)
     fromGroup.clearAllSelection()
     fileSelector() match {
       case None => toGroup.entryList.foreach(e => e.b.setDisable(false))
       case Some(file) =>
-        fromGroup.setSelected(fromFileButton, file)
+        fromGroup.setSelected(fromFileButton, FileInfo(file))
         showThis("From file: " + file.getName(), Color.Black)
     }
   }
 
   def fromMongoAction(): Unit = {
     clearMessage()
-    setDisableToGroup(toMongoButton)
+    disableInToGroup(toMongoButton)
     showSpinner(true)
     fromGroup.clearAllSelection()
     // try to connect to the mongo db
@@ -142,12 +137,12 @@ class StixLoaderController(aboutItem: MenuItem,
       // start a mongoDB connection, if not already connected
       // will wait here for the connection to complete or throw an exception
       if (!MongoDbStix.isConnected) MongoDbStix.init()
-      fromGroup.setSelected(fromMongoButton, MongoInfo())
+      fromGroup.setSelected(fromMongoButton, MongoInfo(MongoDbStix.dbUri))
       showThis("Ok connected to MongoDB: " + MongoDbStix.dbUri, Color.Black)
     } catch {
       case ex: Throwable =>
         fromGroup.clearAllSelection()
-        setDisableToGroup(toMongoButton)
+        disableInToGroup(toMongoButton)
         showThis("Fail to connect to MongoDB: " + MongoDbStix.dbUri, Color.Red)
     } finally {
       showSpinner(false)
@@ -156,23 +151,23 @@ class StixLoaderController(aboutItem: MenuItem,
 
   def fromPostgresAction(): Unit = {
     clearMessage()
-    setDisableToGroup(toPostgresButton)
-    fromGroup.setSelected(fromPostgresButton, null)
+    disableInToGroup(toPostgresButton)
+    fromGroup.setSelected(fromPostgresButton, NoInfo())
     if (fromGroup.isSelected(fromPostgresButton)) showThis("From PostgreSQL not yet implemented", Color.Red)
     println("---> fromPostgresAction")
   }
 
   def fromNeo4jAction(): Unit = {
     clearMessage()
-    setDisableToGroup(toNeo4jButton)
-    fromGroup.setSelected(fromNeo4jButton, null)
+    disableInToGroup(toNeo4jButton)
+    fromGroup.setSelected(fromNeo4jButton, NoInfo())
     if (fromGroup.isSelected(fromNeo4jButton)) showThis("From Neo4j not yet implemented", Color.Red)
     println("---> fromNeo4jAction")
   }
 
   def toFileAction(): Unit = {
     clearMessage()
-    setDisableFromGroup(fromFileButton)
+    disableInFromGroup(fromFileButton)
     toGroup.clearAllSelection()
     fileSaver() match {
       case None => fromGroup.entryList.foreach(e => e.b.setDisable(false))
@@ -184,7 +179,7 @@ class StixLoaderController(aboutItem: MenuItem,
 
   def toMongoAction(): Unit = {
     clearMessage()
-    setDisableFromGroup(fromMongoButton)
+    disableInFromGroup(fromMongoButton)
     showSpinner(true)
     toGroup.clearAllSelection()
     // try to connect to the mongo db
@@ -197,20 +192,20 @@ class StixLoaderController(aboutItem: MenuItem,
         MongoDbStix.init()
         // if could connect
         if (MongoDbStix.isConnected) {
-          toGroup.setSelected(toMongoButton, MongoInfo())
+          toGroup.setSelected(toMongoButton, MongoInfo(MongoDbStix.dbUri))
           showThis("Ok connected to MongoDB: " + MongoDbStix.dbUri, Color.Black)
         } else {
           showThis("Fail to connect to MongoDB: " + MongoDbStix.dbUri, Color.Red)
         }
       } else {
         // already connected
-        toGroup.setSelected(toMongoButton, MongoInfo())
+        toGroup.setSelected(toMongoButton, MongoInfo(MongoDbStix.dbUri))
         showThis("Ok connected to MongoDB: " + MongoDbStix.dbUri, Color.Black)
       }
     } catch {
       case ex: Throwable =>
         toGroup.clearAllSelection()
-        setDisableFromGroup(fromMongoButton)
+        disableInFromGroup(fromMongoButton)
         showThis("Fail to connect to MongoDB: " + MongoDbStix.dbUri, Color.Red)
     } finally {
       showSpinner(false)
@@ -219,7 +214,7 @@ class StixLoaderController(aboutItem: MenuItem,
 
   def toNeo4jAction(): Unit = {
     clearMessage()
-    setDisableFromGroup(fromNeo4jButton)
+    disableInFromGroup(fromNeo4jButton)
     toGroup.clearAllSelection()
     directorySelector() match {
       case None => fromGroup.entryList.foreach(e => e.b.setDisable(false))
@@ -231,63 +226,46 @@ class StixLoaderController(aboutItem: MenuItem,
 
   def toPostgresAction(): Unit = {
     clearMessage()
-    setDisableFromGroup(fromPostgresButton)
-    toGroup.setSelected(toPostgresButton, null)
+    disableInFromGroup(fromPostgresButton)
+    toGroup.setSelected(toPostgresButton, NoInfo())
     if (toGroup.isSelected(toPostgresButton)) showThis("To PostgreSQL not yet implemented", Color.Red)
     println("---> toPostgresAction")
   }
 
-  def convertAction(): Unit = {
-    clearMessage()
-    toGroup.getSelected().map(toSelection => {
-      fromGroup.getSelected().map(fromSelection => {
-        fromSelection.getUserData match {
-          case fromFile: File => FileLoader.load(fromFile, toSelection.getUserData, self)
-          case fromMongo: MongoInfo => MongoLoader.load(fromMongo, toSelection.getUserData, self)
-          case x => showThis("Conversion not yet implemented", Color.Red)
-        }
-      })
-    })
-    fromGroup.clearAllSelection()
-    toGroup.clearAllSelection()
-    fromGroup.entryList.foreach(e => e.b.setDisable(false))
-    toGroup.entryList.foreach(e => e.b.setDisable(false))
-  }
-
   // todo load a bundle from a network feed
-  def loadNetBundle(thePath: String) {
-    showThis("Loading bundle from: " + thePath, Color.Black)
-    showSpinner(true)
-    // try to load the data
-    try {
-      // request the data
-      getDataFrom(thePath).map(jsData => {
-        // create a bundle object from it
-        Json.fromJson[Bundle](jsData).asOpt match {
-          case Some(bundle) =>
-            showThis("Bundle loaded from: " + thePath, Color.Black)
-
-          case None => showThis("Fail to load bundle from: " + thePath, Color.Red)
-        }
-      })
-    } catch {
-      case ex: Throwable => showThis("Fail to load bundle from: " + thePath, Color.Red)
-    } finally {
-      showSpinner(false)
-    }
-  }
+//  def loadNetBundle(thePath: String) {
+//    showThis("Loading bundle from: " + thePath, Color.Black)
+//    showSpinner(true)
+//    // try to load the data
+//    try {
+//      // request the data
+//      getDataFrom(thePath).map(jsData => {
+//        // create a bundle object from it
+//        Json.fromJson[Bundle](jsData).asOpt match {
+//          case Some(bundle) =>
+//            showThis("Bundle loaded from: " + thePath, Color.Black)
+//
+//          case None => showThis("Fail to load bundle from: " + thePath, Color.Red)
+//        }
+//      })
+//    } catch {
+//      case ex: Throwable => showThis("Fail to load bundle from: " + thePath, Color.Red)
+//    } finally {
+//      showSpinner(false)
+//    }
+//  }
 
   def fromESAction(): Unit = {
     clearMessage()
-    setDisableFromGroup(toESButton)
-    fromGroup.setSelected(fromESButton, null)
+    disableInFromGroup(toESButton)
+    fromGroup.setSelected(fromESButton, NoInfo())
     if (fromGroup.isSelected(fromESButton)) showThis("From Elasticsearch not yet implemented", Color.Red)
     println("---> fromESAction")
   }
 
   def toESAction(): Unit = {
     clearMessage()
-    setDisableFromGroup(fromESButton)
+    disableInFromGroup(fromESButton)
     showSpinner(true)
     toGroup.clearAllSelection()
     // try to connect to elasticsearch
@@ -299,25 +277,42 @@ class StixLoaderController(aboutItem: MenuItem,
         ElasticStix.init()
         // if could connect
         if (ElasticStix.isConnected) {
-          toGroup.setSelected(toESButton, ESInfo())
+          toGroup.setSelected(toESButton, ESInfo(ElasticStix.esName))
           showThis("Ok connected to Elasticsearch: " + ElasticStix.esName, Color.Black)
         } else {
           showThis("Fail to connect to Elasticsearch: " + ElasticStix.esName, Color.Red)
         }
       } else {
         // already connected
-        toGroup.setSelected(toESButton, ESInfo())
+        toGroup.setSelected(toESButton, ESInfo(ElasticStix.esName))
         showThis("Ok connected to Elasticsearch: " + ElasticStix.esName, Color.Black)
       }
     } catch {
       case ex: Throwable =>
         toGroup.clearAllSelection()
-        setDisableFromGroup(fromESButton)
+        disableInFromGroup(fromESButton)
         showThis("Fail to connect to Elasticsearch: " + ElasticStix.esName, Color.Red)
     } finally {
       showSpinner(false)
     })
   }
 
+  def loadAction(): Unit = {
+    clearMessage()
+    toGroup.getSelected().map(toSelection => {
+      val destination = toSelection.getUserData.asInstanceOf[InfoMessage]
+      fromGroup.getSelected().map(fromSelection => {
+        fromSelection.getUserData match {
+          case fromFile: FileInfo => FileLoader.load(fromFile, destination, self)
+          case fromMongo: MongoInfo => MongoLoader.load(fromMongo, destination, self)
+          case x => showThis("Loading from this not yet implemented", Color.Red)
+        }
+      })
+    })
+    fromGroup.clearAllSelection()
+    toGroup.clearAllSelection()
+    fromGroup.entryList.foreach(e => e.b.setDisable(false))
+    toGroup.entryList.foreach(e => e.b.setDisable(false))
+  }
 
 }

@@ -12,7 +12,6 @@ import play.api.libs.json._
 import stix.controllers.StixLoaderControllerInterface
 
 import scala.io.Source
-import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}
 import scala.language.{implicitConversions, postfixOps}
@@ -24,6 +23,7 @@ import org.apache.http.client.config.RequestConfig.Builder
 import org.apache.http.impl.client.BasicCredentialsProvider
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder
 import org.elasticsearch.client.RestClientBuilder.{HttpClientConfigCallback, RequestConfigCallback}
+import stix.support.CyberUtils.Counter
 
 
 /**
@@ -35,19 +35,7 @@ object ElasticStix {
 
   val listOfAllTypes: Seq[String] = Util.listOfSDOTypes ++ Util.listOfSROTypes ++ Util.listOfStixTypes ++ List(customObjectType)
 
-  val counter = mutable.Map("SDO" -> 0, "SRO" -> 0, "StixObj" -> 0)
-
-  def resetCount(): Unit = counter.foreach({ case (k, v) => counter(k) = 0 })
-
-  def inc(k: String): Unit = counter(k) = counter(k) + 1
-
-  def count(stix: StixObj): Unit = {
-    stix match {
-      case x: SDO => inc("SDO")
-      case x: SRO => inc("SRO")
-      case x: StixObj => inc("StixObj")
-    }
-  }
+  val counter = new Counter()
 
   val config: Config = ConfigFactory.load
 
@@ -114,7 +102,7 @@ object ElasticStix {
     client.execute {
       bulk(bundle.objects.map(stix => {
         val stixType = if (stix.`type`.startsWith("x-")) customObjectType else stix.`type`
-        count(stix)
+        counter.countStix(stix)
         indexInto(stixType / stixType) source stix
       }))
     }.await
@@ -124,20 +112,20 @@ object ElasticStix {
     if (isConnected) {
       controller.showSpinner(true)
       Future(try {
-        controller.showThis("Saving: " + file.getName + " to Elasticsearch: " + esName, Color.Black)
+        controller.showThis("Loading: " + file.getName + " to Elasticsearch: " + esName, Color.Black)
         if (file.getName.toLowerCase.endsWith(".zip")) {
           saveBundleZipFile(file)
         } else {
           saveBundleFile(file)
         }
-        controller.showThis("Done saving: " + file.getName + " to Elasticsearch: " + esName, Color.Black)
-        controller.showThis("   SDO: " + counter("SDO") + " SRO: " + counter("SRO") + " StixObj: " + counter("StixObj"), Color.Black)
-        resetCount()
-        println("----> Done saving: " + file.getName + " to Elasticsearch: " + esName)
+        controller.showThis("Done loading: " + file.getName + " to Elasticsearch: " + esName, Color.Black)
+        controller.showThis("   SDO: " + counter.count("SDO") + " SRO: " + counter.count("SRO") + " StixObj: " + counter.count("StixObj"), Color.Black)
+        counter.resetCount()
+        println("----> Done loading: " + file.getName + " to Elasticsearch: " + esName)
       } catch {
         case ex: Throwable =>
-          println("----> Fail to save data to Elasticsearch: " + esName)
-          controller.showThis("Fail to save data to Elasticsearch: " + esName, Color.Red)
+          println("----> Fail to load data to Elasticsearch: " + esName)
+          controller.showThis("Fail to load data to Elasticsearch: " + esName, Color.Red)
       } finally {
         controller.showSpinner(false)
         close()

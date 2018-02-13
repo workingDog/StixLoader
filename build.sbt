@@ -55,8 +55,45 @@ mainClass in assembly := Some("stix.StixLoaderApp")
 
 assemblyJarName in assembly := "stixloader-" + version.value + ".jar"
 
+//------------------------sbt-native-packager--------------------
+//
+//enablePlugins(JDKPackagerPlugin)
+//
+//packageSummary := "stixloader package"
+//
+//packageDescription := "loads STIX-2.0 objects from source storage systems to destination output systems."
+//
+//lazy val iconGlob = sys.props("os.name").toLowerCase match {
+//  case os if os.contains("mac") => "*.icns"
+//  case os if os.contains("win") => "*.ico"
+//  case _ => "*.png"
+//}
+//
+//jdkAppIcon :=  (sourceDirectory.value ** iconGlob).getPaths.headOption.map(file)
+//
+//jdkPackagerType := "installer"
+//
+//jdkPackagerJVMArgs := Seq("-Xmx1g")
+//
+//jdkPackagerProperties := Map("app.name" -> name.value, "app.version" -> version.value)
+//
+//jdkPackagerAppArgs := Seq(maintainer.value, packageSummary.value, packageDescription.value)
+//
+////jdkPackagerAssociations := Seq(
+////  FileAssociation("foobar", "application/foobar", "Foobar file type"),
+////  FileAssociation("barbaz", "application/barbaz", "Barbaz file type", jdkAppIcon.value)
+////)
+//
+//// Example of specifying a fallback location of `ant-javafx.jar` if plugin can't find it.
+//(antPackagerTasks in JDKPackager) := (antPackagerTasks in JDKPackager).value orElse {
+//  for {
+//    f <- Some(file("/usr/lib/jvm/java-8-oracle/lib/ant-javafx.jar")) if f.exists()
+//  } yield f
+//}
+//
+//fork := true
 
-
+//------------------------sbt-proguard--------------------
 
 //enablePlugins(SbtProguard)
 //

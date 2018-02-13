@@ -1,6 +1,8 @@
 package stix.support
 
 import com.jfoenix.controls.JFXButton
+import stix.info.{InfoMessage, NoInfo}
+
 import scala.collection.mutable
 
 
@@ -28,7 +30,7 @@ class ButtonGroup(fromGroup: Boolean) {
     * @param thisButton
     * @param userData
     */
-  def setSelected(thisButton: JFXButton, userData: AnyRef): Unit = {
+  def setSelected(thisButton: JFXButton, userData: InfoMessage): Unit = {
     entryList.foreach(e =>
       if (e.b == thisButton) {
         e.k = !e.k
@@ -38,7 +40,7 @@ class ButtonGroup(fromGroup: Boolean) {
       else {
         e.b.setStyle(offStyle)
         e.k = false
-        e.b.setUserData(null)
+        e.b.setUserData(NoInfo())
       })
   }
 
@@ -46,7 +48,7 @@ class ButtonGroup(fromGroup: Boolean) {
     entryList.foreach(e => {
       e.b.setStyle(offStyle)
       e.k = false
-      e.b.setUserData(null)
+      e.b.setUserData(NoInfo())
     })
   }
 

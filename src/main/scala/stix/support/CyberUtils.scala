@@ -5,10 +5,12 @@ import java.net.URL
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+import com.kodekutters.stix.{SDO, SRO, StixObj}
 import play.api.libs.ws.ahc.StandaloneAhcWSClient
 import play.api.libs.json.{JsNull, JsValue, Json}
 import play.api.libs.ws.JsonBodyReadables._
 
+import scala.collection.mutable
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scalafx.stage.FileChooser.ExtensionFilter
@@ -58,6 +60,22 @@ object CyberUtils {
     }.recover({
       case e: Exception => println("could not connect to: " + thePath); JsNull
     })
+  }
+
+  class Counter() {
+    val count = mutable.Map("SDO" -> 0, "SRO" -> 0, "StixObj" -> 0)
+
+    def resetCount(): Unit = count.foreach({ case (k, v) => count(k) = 0 })
+
+    def inc(k: String): Unit = count(k) = count(k) + 1
+
+    def countStix(stix: StixObj): Unit = {
+      stix match {
+        case x: SDO => inc("SDO")
+        case x: SRO => inc("SRO")
+        case x: StixObj => inc("StixObj")
+      }
+    }
   }
 
 }
