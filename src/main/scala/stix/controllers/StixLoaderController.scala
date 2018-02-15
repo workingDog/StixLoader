@@ -1,11 +1,9 @@
 package stix.controllers
 
-import java.io.File
 import javafx.fxml.FXML
 
 import com.jfoenix.controls._
-import com.kodekutters.stix.{Bundle, Timestamp}
-import play.api.libs.json.Json
+import com.kodekutters.stix.Timestamp
 import stix.StixLoaderApp
 import stix.db.elastic.ElasticStix
 import stix.db.mongo.MongoDbStix
@@ -20,7 +18,7 @@ import scalafx.application.Platform
 import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.control._
 import scalafx.scene.paint.Color
-import scalafxml.core.macros.{nested, sfxml}
+import scalafxml.core.macros.sfxml
 
 
 trait StixLoaderControllerInterface {
@@ -73,7 +71,7 @@ class StixLoaderController(aboutItem: MenuItem,
     toGroup.add(toNeo4jButton)
     toGroup.add(toPostgresButton)
     toGroup.add(toESButton)
-    infoArea.appendText("Session starting at: " + Timestamp.now().toString())
+    infoArea.appendText("Session started at: " + Timestamp.now().toString())
   }
 
   def showThis(text: String, color: Color): Unit = Platform.runLater(() => {

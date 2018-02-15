@@ -2,7 +2,7 @@ package stix
 
 import java.io.IOException
 import java.security.Security
-import javafx.{fxml => jfxf, scene => jfxs}
+import javafx.{scene => jfxs}
 
 import controllers.StixLoaderControllerInterface
 
@@ -10,7 +10,7 @@ import scalafx.Includes._
 import scalafx.application.{JFXApp, Platform}
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.scene.Scene
-import scalafxml.core.{DependenciesByType, FXMLLoader}
+import scalafxml.core.{FXMLLoader, NoDependencyResolver}
 import scala.language.{implicitConversions, postfixOps}
 
 
@@ -29,7 +29,7 @@ object StixLoaderApp extends JFXApp {
   if (resource == null) {
     throw new IOException("Cannot load resource: ui/stixLoader.fxml")
   }
-  val loader = new FXMLLoader(resource, new DependenciesByType(Map.empty))
+  val loader = new FXMLLoader(resource, NoDependencyResolver)
   loader.load()
   val root: jfxs.Parent = loader.getRoot[jfxs.Parent]
   val controller = loader.getController[StixLoaderControllerInterface]
@@ -49,3 +49,5 @@ object StixLoaderApp extends JFXApp {
   }
 
 }
+
+

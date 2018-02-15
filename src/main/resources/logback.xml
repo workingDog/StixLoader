@@ -19,11 +19,12 @@
         <append>false</append>
     </appender>
 
-    <root level="OFF">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
 
     <logger name="stix.db.mongo.MongoDbStix" level="INFO"/>
+    <logger name="stix.db.neo4j.Neo4jService" level="INFO"/>
 
 </configuration>
