@@ -72,9 +72,7 @@
                                     </Label>
                                     <JFXButton fx:id="fromFileButton" buttonType="RAISED" onAction="#fromFileAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="File" />
                                     <JFXButton fx:id="fromMongoButton" buttonType="RAISED" onAction="#fromMongoAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="MongoDB" />
-                                    <JFXButton fx:id="fromPostgresButton" buttonType="RAISED" onAction="#fromPostgresAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="PostgreSQL" />
-                                    <JFXButton fx:id="fromNeo4jButton" buttonType="RAISED" onAction="#fromNeo4jAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="Neo4j" />
-                                    <JFXButton fx:id="fromESButton" buttonType="RAISED" onAction="#fromESAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="Elasticsearch" />
+                                    <JFXButton fx:id="fromPostgresButton" buttonType="RAISED" disable="true" onAction="#fromPostgresAction" style="-fx-background-color: #2980B9; -fx-background-radius: 5em; -fx-text-fill: white;" text="PostgreSQL" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets left="33.0" top="22.0" />
@@ -92,7 +90,7 @@
                                     </Label>
                                     <JFXButton fx:id="toFileButton" buttonType="RAISED" onAction="#toFileAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="File" />
                                     <JFXButton fx:id="toMongoButton" buttonType="RAISED" onAction="#toMongoAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="MongoDB" />
-                                    <JFXButton fx:id="toPostgresButton" buttonType="RAISED" onAction="#toPostgresAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="PostgreSQL" />
+                                    <JFXButton fx:id="toPostgresButton" buttonType="RAISED" disable="true" onAction="#toPostgresAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="PostgreSQL" />
                                     <JFXButton fx:id="toNeo4jButton" buttonType="RAISED" onAction="#toNeo4jAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="Neo4j" />
                                     <JFXButton fx:id="toESButton" buttonType="RAISED" onAction="#toESAction" style="-fx-background-color: #00AA8D; -fx-background-radius: 5em; -fx-text-fill: white;" text="Elasticsearch" />
                                  </children>

@@ -41,8 +41,8 @@ class StixLoaderController(aboutItem: MenuItem,
                            @FXML fromFileButton: JFXButton,
                            @FXML fromMongoButton: JFXButton,
                            @FXML fromPostgresButton: JFXButton,
-                           @FXML fromNeo4jButton: JFXButton,
-                           @FXML fromESButton: JFXButton,
+                           //                           @FXML fromNeo4jButton: JFXButton,
+                           //                           @FXML fromESButton: JFXButton,
                            @FXML toFileButton: JFXButton,
                            @FXML toMongoButton: JFXButton,
                            @FXML toNeo4jButton: JFXButton,
@@ -63,9 +63,9 @@ class StixLoaderController(aboutItem: MenuItem,
     showSpinner(false)
     fromGroup.add(fromFileButton)
     fromGroup.add(fromMongoButton)
-    fromGroup.add(fromNeo4jButton)
+    //    fromGroup.add(fromNeo4jButton)
+    //    fromGroup.add(fromESButton)
     fromGroup.add(fromPostgresButton)
-    fromGroup.add(fromESButton)
     toGroup.add(toFileButton)
     toGroup.add(toMongoButton)
     toGroup.add(toNeo4jButton)
@@ -150,13 +150,21 @@ class StixLoaderController(aboutItem: MenuItem,
     println("---> fromPostgresAction")
   }
 
-  def fromNeo4jAction(): Unit = {
-    clearMessage()
-    disableInToGroup(toNeo4jButton)
-    fromGroup.setSelected(fromNeo4jButton, NoInfo())
-    if (fromGroup.isSelected(fromNeo4jButton)) showThis("From Neo4j not yet implemented", Color.Red)
-    println("---> fromNeo4jAction")
-  }
+  //  def fromNeo4jAction(): Unit = {
+  //    clearMessage()
+  //    disableInToGroup(toNeo4jButton)
+  //    fromGroup.setSelected(fromNeo4jButton, NoInfo())
+  //    if (fromGroup.isSelected(fromNeo4jButton)) showThis("From Neo4j not yet implemented", Color.Red)
+  //    println("---> fromNeo4jAction")
+  //  }
+
+  //  def fromESAction(): Unit = {
+  //    clearMessage()
+  //    disableInFromGroup(toESButton)
+  //    fromGroup.setSelected(fromESButton, NoInfo())
+  //    if (fromGroup.isSelected(fromESButton)) showThis("From Elasticsearch not yet implemented", Color.Red)
+  //    println("---> fromESAction")
+  //  }
 
   def toFileAction(): Unit = {
     clearMessage()
@@ -207,7 +215,7 @@ class StixLoaderController(aboutItem: MenuItem,
 
   def toNeo4jAction(): Unit = {
     clearMessage()
-    disableInFromGroup(fromNeo4jButton)
+    //  disableInFromGroup(fromNeo4jButton)
     toGroup.clearAllSelection()
     directorySelector() match {
       case None => fromGroup.entryList.foreach(e => e.b.setDisable(false))
@@ -225,40 +233,9 @@ class StixLoaderController(aboutItem: MenuItem,
     println("---> toPostgresAction")
   }
 
-  // todo load a bundle from a network feed
-//  def loadNetBundle(thePath: String) {
-//    showThis("Loading bundle from: " + thePath, Color.Black)
-//    showSpinner(true)
-//    // try to load the data
-//    try {
-//      // request the data
-//      getDataFrom(thePath).map(jsData => {
-//        // create a bundle object from it
-//        Json.fromJson[Bundle](jsData).asOpt match {
-//          case Some(bundle) =>
-//            showThis("Bundle loaded from: " + thePath, Color.Black)
-//
-//          case None => showThis("Fail to load bundle from: " + thePath, Color.Red)
-//        }
-//      })
-//    } catch {
-//      case ex: Throwable => showThis("Fail to load bundle from: " + thePath, Color.Red)
-//    } finally {
-//      showSpinner(false)
-//    }
-//  }
-
-  def fromESAction(): Unit = {
-    clearMessage()
-    disableInFromGroup(toESButton)
-    fromGroup.setSelected(fromESButton, NoInfo())
-    if (fromGroup.isSelected(fromESButton)) showThis("From Elasticsearch not yet implemented", Color.Red)
-    println("---> fromESAction")
-  }
-
   def toESAction(): Unit = {
     clearMessage()
-    disableInFromGroup(fromESButton)
+    //  disableInFromGroup(fromESButton)
     showSpinner(true)
     toGroup.clearAllSelection()
     // try to connect to elasticsearch
@@ -283,7 +260,7 @@ class StixLoaderController(aboutItem: MenuItem,
     } catch {
       case ex: Throwable =>
         toGroup.clearAllSelection()
-        disableInFromGroup(fromESButton)
+        //    disableInFromGroup(fromESButton)
         showThis("Fail to connect to Elasticsearch: " + ElasticStix.esName, Color.Red)
     } finally {
       showSpinner(false)
