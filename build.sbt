@@ -5,7 +5,7 @@ name := "stixloader"
 
 version := (version in ThisBuild).value
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.6"
 
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 
@@ -39,7 +39,11 @@ assemblyMergeStrategy in assembly := {
   case PathList(xs@_*) if xs.last endsWith "LICENSES.txt" => MergeStrategy.discard
   case PathList(xs@_*) if xs.last endsWith "LICENSE.txt" => MergeStrategy.discard
   case PathList(xs@_*) if xs.last endsWith "logback.xml" => MergeStrategy.discard
-  case "META-INF/io.netty.versions.properties" => MergeStrategy.discard
+  case PathList(xs@_*) if xs.last endsWith "shaded-asynchttpclient-1.1.3.jar" => MergeStrategy.first
+  case PathList(xs@_*) if xs.last endsWith "netty-all-4.1.17.Final.jar" => MergeStrategy.first
+
+  case x if x.endsWith("io.netty.versions.properties") => MergeStrategy.first
+
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)

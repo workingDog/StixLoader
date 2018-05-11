@@ -7,7 +7,7 @@ domain objects (SDO) and relationships (SRO) from and to; files, MongoDB, Neo4j,
 for choosing the STIX-2 data source and destination systems.
     
 ### Installation and packaging
-Download this repo, and install [SBT](http://www.scala-sbt.org/). 
+Download this repo, and install the latest [SBT](http://www.scala-sbt.org/). 
 
 To compile the source code and assemble the application and all its dependencies into a single fat jar file, use [SBT](http://www.scala-sbt.org/) and type:
 
