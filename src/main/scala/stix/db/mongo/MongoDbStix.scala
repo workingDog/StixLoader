@@ -48,6 +48,21 @@ object MongoDbStix {
 
   def isConnected: Boolean = isReady
 
+  val failoverStrategy = FailoverStrategy(retries = 5)
+
+  private val timeoutFactor = 1.25D
+
+  def estTimeout(fos: FailoverStrategy): FiniteDuration =
+    (1 to fos.retries).foldLeft(fos.initialDelay) { (d, i) =>
+      d + (fos.initialDelay * (timeoutFactor * fos.delayFactor(i)).toLong)
+    }
+
+  val timeoutClose: FiniteDuration = {
+    val maxTimeout = estTimeout(failoverStrategy)
+    if (maxTimeout < 10.seconds) 10.seconds
+    else maxTimeout
+  }
+
   var dbUri = ""
   private var timeout = 30 // seconds
   private var readTimeout = 60 // seconds
@@ -86,7 +101,7 @@ object MongoDbStix {
     Await.result(database, timeout seconds)
   }
 
-  def close(): Unit = if (database != null && isReady) database.map(db => db.connection.close())
+  def close(): Unit = if (database != null && isReady) database.map(db => db.connection.askClose()(timeoutClose))
 
   // all non-STIX-2 types are put in the designated "custom-object" collection
   private def saveBundleAsStixs(bundle: Bundle): Unit = {

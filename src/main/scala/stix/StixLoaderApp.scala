@@ -21,7 +21,7 @@ import scala.language.{implicitConversions, postfixOps}
   */
 object StixLoaderApp extends JFXApp {
 
-  val version = "1.0"
+  val version = "1.1"
   // needed for (SSL) TLS-1.2 in https, requires jdk1.8.0_152
   Security.setProperty("crypto.policy", "unlimited")
   // create the application

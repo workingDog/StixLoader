@@ -13,7 +13,7 @@ To compile the source code and assemble the application and all its dependencies
 
     sbt assembly
 
-This will produce a big jar file called *stixloader-1.0.jar* in the *./target/scala-2.12* directory. 
+This will produce a big jar file called *stixloader-1.1.jar* in the *./target/scala-2.12* directory. 
     
 ### Usage
 
@@ -23,9 +23,9 @@ Using [SBT](http://www.scala-sbt.org/) directly (without having to generate a ja
  
 Using Java to launch **StixLoader**, type at a command prompt:
  
-    java -jar stixloader-1.0.jar
+    java -jar stixloader-1.1.jar
 
-Or in most systems, double click on the *stixloader-1.0.jar* file.
+Or in most systems, double click on the *stixloader-1.1.jar* file.
 
 This will display the main user interface of the application.
 
