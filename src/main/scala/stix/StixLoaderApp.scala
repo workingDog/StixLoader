@@ -36,7 +36,7 @@ object StixLoaderApp extends JFXApp {
   stage = new PrimaryStage() {
     title = "StixLoader-" + version
     scene = new Scene(root)
-    onCloseRequest = (e) => stopApp()
+    onCloseRequest = e => stopApp()
   }
   // initialise the main controller
   controller.init()
