@@ -7,7 +7,7 @@ import com.kodekutters.stix._
 import com.typesafe.config.{Config, ConfigFactory}
 import com.kodekutters.neo4j.Neo4jFileLoader.readBundle
 import com.sksamuel.elastic4s.{ElasticsearchClientUri, RefreshPolicy}
-import com.sksamuel.elastic4s.http.HttpClient
+import com.sksamuel.elastic4s.http.{ElasticClient, ElasticProperties}
 import play.api.libs.json._
 import stix.controllers.StixLoaderControllerInterface
 
@@ -22,6 +22,7 @@ import org.apache.http.auth.{AuthScope, UsernamePasswordCredentials}
 import org.apache.http.client.config.RequestConfig.Builder
 import org.apache.http.impl.client.BasicCredentialsProvider
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder
+import org.elasticsearch.client.Response
 import org.elasticsearch.client.RestClientBuilder.{HttpClientConfigCallback, RequestConfigCallback}
 import stix.support.CyberUtils.Counter
 
@@ -68,7 +69,7 @@ object ElasticStix {
     provider
   }
 
-  val client = HttpClient(ElasticsearchClientUri(host, port), new RequestConfigCallback {
+  val client = ElasticClient(ElasticsearchClientUri(host, port), new RequestConfigCallback {
     override def customizeRequestConfig(requestConfigBuilder: Builder) = {
       requestConfigBuilder
     }
@@ -87,8 +88,8 @@ object ElasticStix {
       client.execute {
         clusterState()
       }.await match {
-        case Right(x) => isReady = true; println("-----> elasticsearch connected")
-        case Left(err) => isReady = false; println(s"-----> elasticsearch fail to connect, error: $err")
+        case x: Response => isReady = true; println("-----> elasticsearch connected")
+        case x => isReady = false; println(s"-----> elasticsearch fail to connect, error: $x")
       }
     } catch {
       case ex: Throwable => isReady = false

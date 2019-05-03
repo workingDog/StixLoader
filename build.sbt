@@ -10,25 +10,25 @@ scalaVersion := "2.12.8"
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.0.1",
-  "com.typesafe.play" %% "play-ws-standalone-json" % "2.0.1",
-  "com.github.workingDog" %% "scalastix" % "0.9",
-  "com.github.workingDog" %% "stixtoneolib" % "0.4",
-  "org.reactivemongo" %% "reactivemongo" % "0.16.2",
-  "org.reactivemongo" %% "reactivemongo-play-json" % "0.16.2-play27",
-  "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
+  "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.0.3",
+  "com.typesafe.play" %% "play-ws-standalone-json" % "2.0.3",
+  "com.github.workingDog" %% "scalastix" % "1.0",
+  "com.github.workingDog" %% "stixtoneolib" % "0.5",
+  "org.reactivemongo" %% "reactivemongo" % "0.16.5",
+  "org.reactivemongo" %% "reactivemongo-play-json" % "0.16.5-play27",
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
 ).map(_.exclude("org.slf4j", "*"))
 
 libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.3",
   "com.google.inject" % "guice" % "4.2.0",
   "com.jfoenix" % "jfoenix" % "8.0.8",
-  "org.scalafx" %% "scalafx" % "11-R16",
+  "org.scalafx" %% "scalafx" % "12.0.1-R17",
   "org.scalafx" %% "scalafxml-core-sfx8" % "0.4",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "com.sksamuel.elastic4s" %% "elastic4s-http" % "6.1.4",
-  "com.sksamuel.elastic4s" %% "elastic4s-play-json" % "6.1.4",
-  "com.sksamuel.elastic4s" %% "elastic4s-http-streams" % "6.1.4"
+  "com.sksamuel.elastic4s" %% "elastic4s-http" % "6.5.1",
+  "com.sksamuel.elastic4s" %% "elastic4s-play-json" % "6.5.1",
+  "com.sksamuel.elastic4s" %% "elastic4s-http-streams" % "6.5.1"
 )
 
 assemblyMergeStrategy in assembly := {
