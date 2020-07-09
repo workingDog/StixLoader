@@ -1,5 +1,8 @@
 ## An App to load STIX-2.0 objects
 
+
+## **StixLoader** was an experiment, it is no longer maintained.
+
 **StixLoader** is a desktop application that loads [STIX-2.0](https://oasis-open.github.io/cti-documentation/) 
 objects from various source storage systems to destination output systems. The aim of **StixLoader** is to convert STIX-2
 domain objects (SDO) and relationships (SRO) from and to; files, MongoDB, Neo4j, PostgreSQL and ElasticSearch. 
@@ -13,7 +16,7 @@ To compile the source code and assemble the application and all its dependencies
 
     sbt assembly
 
-This will produce a big jar file called *stixloader-1.1.jar* in the *./target/scala-2.12* directory. 
+This will produce a big jar file called *stixloader-1.2.jar* in the *./target/scala-2.13* directory. 
     
 ### Usage
 
@@ -23,9 +26,9 @@ Using [SBT](http://www.scala-sbt.org/) directly (without having to generate a ja
  
 Using Java to launch **StixLoader**, type at a command prompt:
  
-    java -jar stixloader-1.1.jar
+    java -jar stixloader-1.2.jar
 
-Or in most systems, double click on the *stixloader-1.1.jar* file.
+Or in most systems, double click on the *stixloader-1.2.jar* file.
 
 This will display the main user interface of the application.
 
