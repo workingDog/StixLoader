@@ -80,7 +80,7 @@ Depends specifically on the [ScalaStix](https://github.com/workingDog/scalastix)
 
 See also the *build.sbt* file.
 
-Java 8 is required.
+Java 11 is required.
                        
 ### References
  

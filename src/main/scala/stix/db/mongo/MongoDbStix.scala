@@ -11,7 +11,7 @@ import reactivemongo.api._
 import reactivemongo.play.json.collection._
 import reactivemongo.play.json._
 import stix.controllers.StixLoaderControllerInterface
-import stix.db.neo4j.Neo4jService
+import com.kodekutters.neo4j
 import stix.support.CyberUtils.Counter
 
 import scala.collection.mutable.ListBuffer
@@ -22,6 +22,7 @@ import scala.io.Source
 import scala.language.{implicitConversions, postfixOps}
 import scala.util.{Failure, Success}
 import scalafx.scene.paint.Color
+import stix.db.neo4j.Neo4jService
 
 
 /**
@@ -206,7 +207,7 @@ object MongoDbStix {
       // wait for all MongoDB readings to be completed
       val seqListOfStix = Await.result(Future.sequence(readAllStix()), readDuration)
       // create a bundle with the stix list
-      val bundle = Bundle(seqListOfStix.flatten.to[ListBuffer])
+      val bundle = Bundle(seqListOfStix.flatten.to(ListBuffer))
       val js = Json.toJson(bundle)
       val bw = new BufferedWriter(new FileWriter(new File(theFile.getCanonicalPath)))
       bw.write(Json.stringify(js))

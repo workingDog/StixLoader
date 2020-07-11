@@ -5,33 +5,49 @@ name := "stixloader"
 
 version := (version in ThisBuild).value
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.3"
 
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
+scalacOptions += "-Ymacro-annotations"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.0.3",
-  "com.typesafe.play" %% "play-ws-standalone-json" % "2.0.3",
-  "com.github.workingDog" %% "scalastix" % "1.0",
-  "com.github.workingDog" %% "stixtoneolib" % "0.5",
-  "org.reactivemongo" %% "reactivemongo" % "0.16.5",
-  "org.reactivemongo" %% "reactivemongo-play-json" % "0.16.5-play27",
+  "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.1.2",
+  "com.typesafe.play" %% "play-ws-standalone-json" % "2.1.2",
+  "com.github.workingDog" %% "scalastix" % "1.1",
+  "com.github.workingDog" %% "stixtoneolib" % "0.6",
+  "org.reactivemongo" %% "reactivemongo" % "0.20.12",
+  "org.reactivemongo" %% "reactivemongo-play-json" % "0.20.12-play29",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
 ).map(_.exclude("org.slf4j", "*"))
 
 libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.3",
   "com.google.inject" % "guice" % "4.2.0",
-  "com.jfoenix" % "jfoenix" % "8.0.8",
-  "org.scalafx" %% "scalafx" % "12.0.1-R17",
-  "org.scalafx" %% "scalafxml-core-sfx8" % "0.4",
+  "com.jfoenix" % "jfoenix" % "9.0.10",
+  "org.scalafx" %% "scalafx" % "14-R19",
+  "org.scalafx" %% "scalafxml-core-sfx8" % "0.5",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "com.sksamuel.elastic4s" %% "elastic4s-http" % "6.5.1",
-  "com.sksamuel.elastic4s" %% "elastic4s-play-json" % "6.5.1",
-  "com.sksamuel.elastic4s" %% "elastic4s-http-streams" % "6.5.1"
+  "com.sksamuel.elastic4s" %% "elastic4s-http" % "6.7.7",
+  "com.sksamuel.elastic4s" %% "elastic4s-play-json" % "6.7.7",
+  "com.sksamuel.elastic4s" %% "elastic4s-http-streams" % "6.7.7"
+)
+
+// Determine OS version of JavaFX binaries
+lazy val osName = System.getProperty("os.name") match {
+  case n if n.startsWith("Linux")   => "linux"
+  case n if n.startsWith("Mac")     => "mac"
+  case n if n.startsWith("Windows") => "win"
+  case _ => throw new Exception("Unknown platform!")
+}
+
+// Add dependency on JavaFX libraries, OS dependent
+lazy val javaFXModules = Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
+libraryDependencies ++= javaFXModules.map( m =>
+  "org.openjfx" % s"javafx-$m" % "14.0.1" classifier osName
 )
 
 assemblyMergeStrategy in assembly := {
+  case "module-info.class" => MergeStrategy.discard
+  case "META-INF/native-image/io.netty/transport/reflection-config.json" => MergeStrategy.discard
   case PathList(xs@_*) if xs.last.toLowerCase endsWith ".rsa" => MergeStrategy.discard
   case PathList(xs@_*) if xs.last.toLowerCase endsWith ".dsa" => MergeStrategy.discard
   case PathList(xs@_*) if xs.last.toLowerCase endsWith ".sf" => MergeStrategy.discard

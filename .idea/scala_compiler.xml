@@ -3,9 +3,9 @@
   <component name="ScalaCompilerConfiguration">
     <profile name="sbt 1" modules="stixloader_9784" />
     <profile name="sbt 2" modules="stixloader">
-      <plugins>
-        <plugin path="$USER_HOME$/.ivy2/cache/org.scalamacros/paradise_2.12.8/jars/paradise_2.12.8-2.1.1.jar" />
-      </plugins>
+      <parameters>
+        <parameter value="-Ymacro-annotations" />
+      </parameters>
     </profile>
   </component>
 </project>
